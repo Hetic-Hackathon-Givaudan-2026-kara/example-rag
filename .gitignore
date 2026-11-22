@@ -20,3 +20,9 @@ __pycache__/
 .idea/
 .DS_Store
 Thumbs.db
+
+# Outils de qualité
+.mypy_cache/
+.ruff_cache/
+.coverage
+htmlcov/
