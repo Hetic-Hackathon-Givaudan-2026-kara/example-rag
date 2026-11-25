@@ -1,0 +1,7 @@
+# Zone Data : service IA
+/app/            @bmakedika
+/tests/          @bmakedika
+/scripts/        @bmakedika
+# Contrat d'API : validé par Data et Dev
+/openapi.yaml    @bmakedika @Limam-Kara
+# À compléter : ajouter le pseudo GitHub de l'autre Data sur les lignes ci-dessus
