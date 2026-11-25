@@ -1,0 +1,11 @@
+{
+  "metier": "flavors",
+  "application": "boisson protéinée",
+  "format": null,
+  "profil_olfactif": ["fruits rouges"],
+  "naturel": true,
+  "volume": null,
+  "contraintes": null,
+  "champs_manquants": ["format"],
+  "completude": 75
+}

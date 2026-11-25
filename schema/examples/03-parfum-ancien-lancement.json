@@ -1,0 +1,11 @@
+{
+  "metier": "fragrances",
+  "application": null,
+  "format": null,
+  "profil_olfactif": null,
+  "naturel": null,
+  "volume": null,
+  "contraintes": ["proche d'un lancement d'il y a trois ans"],
+  "champs_manquants": ["application", "profil_olfactif", "format", "naturel"],
+  "completude": 0
+}

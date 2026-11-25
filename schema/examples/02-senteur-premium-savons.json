@@ -1,0 +1,11 @@
+{
+  "metier": "fragrances",
+  "application": "gamme de savons",
+  "format": null,
+  "profil_olfactif": null,
+  "naturel": null,
+  "volume": null,
+  "contraintes": ["premium"],
+  "champs_manquants": ["profil_olfactif", "format", "naturel"],
+  "completude": 25
+}
