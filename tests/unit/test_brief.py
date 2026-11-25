@@ -50,3 +50,29 @@ def test_optional_fields_do_not_change_completeness() -> None:
 def test_invalid_payloads_are_rejected(payload: dict[str, object]) -> None:
     with pytest.raises(ValidationError):
         BriefExtraction.model_validate(payload)
+
+
+# --- Exemples et fichier JSON Schema ---------------------------------------------------------
+import json  # noqa: E402
+from pathlib import Path  # noqa: E402
+
+from app.schemas.brief import Brief  # noqa: E402
+from scripts.export_schemas import SCHEMA_PATH, render  # noqa: E402
+
+EXAMPLES = sorted((Path(__file__).resolve().parents[2] / "schema" / "examples").glob("*.json"))
+
+
+def test_examples_exist() -> None:
+    assert len(EXAMPLES) >= 3
+
+
+@pytest.mark.parametrize("path", EXAMPLES, ids=lambda p: p.stem)
+def test_example_is_valid_and_consistent(path: Path) -> None:
+    data = json.loads(path.read_text(encoding="utf-8"))
+    computed = {"champs_manquants", "completude"}
+    expected = build_brief(BriefExtraction.model_validate({k: v for k, v in data.items() if k not in computed}))
+    assert Brief.model_validate(data) == expected
+
+
+def test_committed_schema_matches_models() -> None:
+    assert SCHEMA_PATH.read_text(encoding="utf-8") == render()

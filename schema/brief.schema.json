@@ -1,0 +1,157 @@
+{
+  "$defs": {
+    "Format": {
+      "enum": [
+        "poudre",
+        "liquide"
+      ],
+      "title": "Format",
+      "type": "string"
+    },
+    "Metier": {
+      "enum": [
+        "flavors",
+        "fragrances"
+      ],
+      "title": "Metier",
+      "type": "string"
+    },
+    "UniteVolume": {
+      "enum": [
+        "g",
+        "kg",
+        "t"
+      ],
+      "title": "UniteVolume",
+      "type": "string"
+    },
+    "Volume": {
+      "properties": {
+        "valeur": {
+          "exclusiveMinimum": 0,
+          "title": "Valeur",
+          "type": "number"
+        },
+        "unite": {
+          "$ref": "#/$defs/UniteVolume"
+        }
+      },
+      "required": [
+        "valeur",
+        "unite"
+      ],
+      "title": "Volume",
+      "type": "object"
+    }
+  },
+  "additionalProperties": false,
+  "description": "Ce que l'API renvoie : l'extraction plus deux champs calculés par le code.",
+  "properties": {
+    "metier": {
+      "anyOf": [
+        {
+          "$ref": "#/$defs/Metier"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null
+    },
+    "application": {
+      "anyOf": [
+        {
+          "type": "string"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "title": "Application"
+    },
+    "format": {
+      "anyOf": [
+        {
+          "$ref": "#/$defs/Format"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null
+    },
+    "profil_olfactif": {
+      "anyOf": [
+        {
+          "items": {
+            "type": "string"
+          },
+          "type": "array"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "title": "Profil Olfactif"
+    },
+    "naturel": {
+      "anyOf": [
+        {
+          "type": "boolean"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "title": "Naturel"
+    },
+    "volume": {
+      "anyOf": [
+        {
+          "$ref": "#/$defs/Volume"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null
+    },
+    "contraintes": {
+      "anyOf": [
+        {
+          "items": {
+            "type": "string"
+          },
+          "type": "array"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "title": "Contraintes"
+    },
+    "champs_manquants": {
+      "items": {
+        "type": "string"
+      },
+      "title": "Champs Manquants",
+      "type": "array"
+    },
+    "completude": {
+      "maximum": 100,
+      "minimum": 0,
+      "title": "Completude",
+      "type": "integer"
+    }
+  },
+  "required": [
+    "champs_manquants",
+    "completude"
+  ],
+  "title": "Brief",
+  "type": "object"
+}
