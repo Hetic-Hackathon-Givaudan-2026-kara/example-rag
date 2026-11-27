@@ -89,6 +89,6 @@ class OllamaClient:
         return content if isinstance(content, str) else ""
 
     def warm_up(self) -> None:
-        """Charge les deux modèles en mémoire (le premier appel à froid a pris 85 s)."""
+        """Charge les deux modèles en mémoire (le premier appel à froid a pris 85 à 111 s)."""
         self.chat([{"role": "user", "content": "ok"}], max_tokens=1)
         self.embed_query("ok")

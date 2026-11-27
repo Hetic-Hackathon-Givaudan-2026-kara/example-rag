@@ -15,7 +15,7 @@ class Settings(BaseSettings):
     llm_model: str = "qwen2.5:1.5b-instruct-q4_K_M"
     embed_model: str = "nomic-embed-text"
     ollama_host: str = "http://localhost:11434"
-    ollama_timeout_s: float = Field(default=120, gt=0)
+    ollama_timeout_s: float = Field(default=180, gt=0)
     ollama_max_retries: int = Field(default=1, ge=0)
     ollama_keep_alive: str = "60m"
     llm_temperature: float = Field(default=0, ge=0, le=2)
