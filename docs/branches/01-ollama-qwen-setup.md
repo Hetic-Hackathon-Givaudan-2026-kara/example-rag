@@ -40,6 +40,9 @@ Le processus du modèle occupe environ 1,15 Go ; les serveurs de VS Code, enviro
 - Le temps de réponse est presque proportionnel au nombre de tokens générés.
 - Sans consigne ni schéma, le modèle écrit en texte libre, change de langue et invente des produits : il faut un prompt,
   un schéma JSON et des garde-fous. `ollama run` utilise une température par défaut ; notre client la fixe à 0.
+- Test du disque : la lecture à froid du fichier du modèle (1 Go) prend 2,6 s, le disque n'est pas en cause. La cause
+  des 85 à 111 s de chargement n'est pas identifiée (démarrage du processus Ollama sur CPU) ; on la contourne par la
+  mise en route des modèles au démarrage de l'API.
 
 ## Critères de la carte
 | Critère | Résultat |
