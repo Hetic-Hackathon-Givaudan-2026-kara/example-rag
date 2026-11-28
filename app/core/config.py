@@ -20,6 +20,7 @@ class Settings(BaseSettings):
     ollama_keep_alive: str = "60m"
     llm_temperature: float = Field(default=0, ge=0, le=2)
     llm_mode: Literal["real", "fake"] = "real"
+    brief_max_tokens: int = Field(default=200, ge=16)
 
     # --- Données ---
     catalog_path: Path = Path("data/raw_catalog.json")
