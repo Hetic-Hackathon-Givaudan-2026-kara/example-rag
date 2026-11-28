@@ -97,3 +97,22 @@ Corps de requête : `{"question": "Comment s'appelle le cheval de Léo ?", "top_
 
 Si vous changez `EMBED_MODEL`, relancez `clean.py` puis `ingest.py` : les vecteurs
 de deux modèles différents ne sont pas compatibles.
+
+## Modèles Ollama du service IA (projet Givaudan)
+
+| Rôle | Modèle (tag exact) | Taille |
+| :-- | :-- | :-- |
+| Génération | `qwen2.5:1.5b-instruct-q4_K_M` | environ 1 Go |
+| Embeddings | `nomic-embed-text` | environ 270 Mo |
+
+Installation :
+
+    ollama pull qwen2.5:1.5b-instruct-q4_K_M
+    ollama pull nomic-embed-text
+    curl http://localhost:11434/api/tags
+
+Le tag `qwen2.5:1.5b-instruct-q4`, cité dans le document de choix du modèle, n'existe pas dans la bibliothèque Ollama.
+
+Le premier appel à froid a pris de 85 à 111 s sur la machine de développement : l'API charge les modèles au démarrage
+(`OllamaClient.warm_up()`). Réglages dans `.env` : `OLLAMA_TIMEOUT_S`, `OLLAMA_KEEP_ALIVE`, `OLLAMA_MAX_RETRIES`.
+Mesures détaillées : `docs/branches/01-ollama-qwen-setup.md`.
