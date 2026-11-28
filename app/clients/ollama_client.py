@@ -10,6 +10,7 @@ import httpx
 import ollama
 
 from app.core.config import Settings, get_settings
+from app.core.errors import LLMUnavailableError
 
 logger = logging.getLogger(__name__)
 
@@ -17,7 +18,7 @@ NOMIC_DOCUMENT_PREFIX = "search_document: "
 NOMIC_QUERY_PREFIX = "search_query: "
 
 
-class OllamaUnavailableError(RuntimeError):
+class OllamaUnavailableError(LLMUnavailableError):
     """Ollama n'a pas répondu correctement, même après les nouveaux essais."""
 
 

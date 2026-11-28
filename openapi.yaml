@@ -1,0 +1,211 @@
+openapi: 3.1.0
+info:
+  title: Service IA - commande intelligente
+  description: Extrait les critères d'une demande de client B2B (brief), pose des
+    questions de précision et recommande des références du catalogue. Données fictives.
+    L'en-tête X-LLM-Mode indique si la réponse vient du vrai modèle (real) ou d'un
+    faux modèle de démonstration (fake).
+  version: 0.1.0
+paths:
+  /health:
+    get:
+      tags:
+      - système
+      summary: Health
+      description: Indique que le service tourne et quels modèles il utilise.
+      operationId: health_health_get
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HealthResponse'
+  /brief:
+    post:
+      tags:
+      - brief
+      summary: Create Brief
+      description: Extrait les critères de la demande du client. Ce que le client
+        n'a pas dit vaut null.
+      operationId: create_brief_brief_post
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/BriefRequest'
+        required: true
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Brief'
+        '503':
+          description: Le service d'IA est momentanément indisponible
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+components:
+  schemas:
+    Brief:
+      properties:
+        metier:
+          anyOf:
+          - $ref: '#/components/schemas/Metier'
+          - type: 'null'
+        application:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Application
+        format:
+          anyOf:
+          - $ref: '#/components/schemas/Format'
+          - type: 'null'
+        profil_olfactif:
+          anyOf:
+          - items:
+              type: string
+            type: array
+          - type: 'null'
+          title: Profil Olfactif
+        naturel:
+          anyOf:
+          - type: boolean
+          - type: 'null'
+          title: Naturel
+        volume:
+          anyOf:
+          - $ref: '#/components/schemas/Volume'
+          - type: 'null'
+        contraintes:
+          anyOf:
+          - items:
+              type: string
+            type: array
+          - type: 'null'
+          title: Contraintes
+        champs_manquants:
+          items:
+            type: string
+          type: array
+          title: Champs Manquants
+        completude:
+          type: integer
+          maximum: 100.0
+          minimum: 0.0
+          title: Completude
+      additionalProperties: false
+      type: object
+      required:
+      - champs_manquants
+      - completude
+      title: Brief
+      description: 'Ce que l''API renvoie : l''extraction plus deux champs calculés
+        par le code.'
+    BriefRequest:
+      properties:
+        texte:
+          type: string
+          maxLength: 2000
+          minLength: 1
+          title: Texte
+          description: La demande du client, avec ses mots
+      type: object
+      required:
+      - texte
+      title: BriefRequest
+    Format:
+      type: string
+      enum:
+      - poudre
+      - liquide
+      title: Format
+    HTTPValidationError:
+      properties:
+        detail:
+          items:
+            $ref: '#/components/schemas/ValidationError'
+          type: array
+          title: Detail
+      type: object
+      title: HTTPValidationError
+    HealthResponse:
+      properties:
+        status:
+          type: string
+          const: ok
+          title: Status
+          default: ok
+        llm_mode:
+          type: string
+          title: Llm Mode
+        llm_model:
+          type: string
+          title: Llm Model
+        embed_model:
+          type: string
+          title: Embed Model
+      type: object
+      required:
+      - llm_mode
+      - llm_model
+      - embed_model
+      title: HealthResponse
+    Metier:
+      type: string
+      enum:
+      - flavors
+      - fragrances
+      title: Metier
+    UniteVolume:
+      type: string
+      enum:
+      - g
+      - kg
+      - t
+      title: UniteVolume
+    ValidationError:
+      properties:
+        loc:
+          items:
+            anyOf:
+            - type: string
+            - type: integer
+          type: array
+          title: Location
+        msg:
+          type: string
+          title: Message
+        type:
+          type: string
+          title: Error Type
+        input:
+          title: Input
+        ctx:
+          type: object
+          title: Context
+      type: object
+      required:
+      - loc
+      - msg
+      - type
+      title: ValidationError
+    Volume:
+      properties:
+        valeur:
+          type: number
+          exclusiveMinimum: 0.0
+          title: Valeur
+        unite:
+          $ref: '#/components/schemas/UniteVolume'
+      type: object
+      required:
+      - valeur
+      - unite
+      title: Volume
